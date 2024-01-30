@@ -2,8 +2,6 @@ package com.coffeeculture.authorizationserver.authentication;
 
 import com.coffeeculture.authorizationserver.models.user.*;
 import com.coffeeculture.authorizationserver.util.DefaultIdProvider;
-import com.coffeeculture.authorizationserver.util.JwtUtil;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -13,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.HashSet;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +20,7 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
     private final DefaultIdProvider defaultIdProvider;
+    private final JwtService jwtService;
 
     //--- repos ---//
     private final UserRepository userRepo;
@@ -46,7 +45,7 @@ public class AuthService {
         user.setLastLogin(LocalDateTime.now());
 
         return AuthResponse.builder()
-                .jwt(JwtUtil.createJwtForUser(userRepo.save(user)))
+                .jwt(jwtService.createJwtForUser(userRepo.save(user)))
                 .build();
     }
     @Transactional
@@ -72,9 +71,10 @@ public class AuthService {
                         .user(user)
                         .build());
 
+        user.setUserRoles(new HashSet<>());
         user.getUserRoles().add(role);
         return AuthResponse.builder()
-                .jwt(JwtUtil.createJwtForUser(userRepo.save(user)))
+                .jwt(jwtService.createJwtForUser(userRepo.save(user)))
                 .build();
     }
 }

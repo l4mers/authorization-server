@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS user_credentials
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
-CREATE TABLE IF NOT EXISTS user_oath
+CREATE TABLE IF NOT EXISTS user_oauth
 (
     oauth_id                TEXT            PRIMARY KEY,
     user_id                 TEXT            NOT NULL,

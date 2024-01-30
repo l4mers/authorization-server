@@ -1,16 +1,11 @@
 spring:
-#  security:
-#    oauth2:
-#      client:
-#        registration:
-#          github:
-#            clientId: 4776accfdf0735b184d5
-#            clientSecret: 137da46d4e5e285b23c272f67815458d1d611da6
   datasource:
+    #url: jdbc:postgresql://ingela.com:5434/postgres
     url: jdbc:postgresql://localhost:5432/postgres
     #url: jdbc:postgresql://postgres:5432/postgres
     username: postgres
     password: 123
+    #password: Reme6502tva#
     driver-class-name: org.postgresql.Driver
 
   flyway:
